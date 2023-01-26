@@ -1,10 +1,11 @@
-import {suppressLLM, DataGenerator, SuppresServer} from './suppress.js';
+// import {suppressLLM, DataGenerator, SuppresServer} from './suppress.js';
+const {SuppressLLM , DataGenerator, SuppresServer} = require('./suppress.js');
 
 
 let openAIenvKey = '';
 
 // create an instance of an LLM, by default this is OPENAI
-const llm = new suppressLLM(openAIenvKey);
+const llm = new SuppressLLM(openAIenvKey);
 
 // create the server, to host the endpoints
 const server = new SuppresServer();

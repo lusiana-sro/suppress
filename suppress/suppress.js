@@ -1,5 +1,5 @@
-import express from 'express';
-import { Configuration, OpenAIApi } from "openai";
+const express = require('express');
+const { Configuration, OpenAIApi } = require("openai");
 
 
 
@@ -95,13 +95,14 @@ class SuppresServer {
         }
 
     }
-    start() {
-        this.app.listen(3000, () => {
-            console.log("Server started on port 3000");
+    start(port) {
+        port = port || 3000;
+        this.app.listen(port, () => {
+            console.log("Server started on port", port);
         });
     }
 }
 
 // export all classes
 
-export { SuppressLLM, DataGenerator, SuppresServer };
+module.exports = { SuppressLLM, DataGenerator, SuppresServer };

@@ -9,11 +9,13 @@
 Look no further than Suppress! Suppress is a node.js framework that makes it easy to add powerful features to your app with just a few lines of code. It is built on top of Express.js and uses AI to make your life easier.
 With Suppress, you can quickly and easily add features and *take your app to the next level!*
 
+Here is an [[https://www.linkedin.com/pulse/backend-ai-daniel-rosel][article]] demonstrating the power of suppress.js.
+
 * Get Started
 1. =npm i ai.suppress.js=
 2. Create a file named =server.js= and add the following code:
     #+BEGIN_SRC javascript
-      import {SuppressLLM, DataGenerator, SuppresServer} from 'ai.suppress.js';
+      const {SuppressLLM , DataGenerator, SuppresServer} = require('ai.suppress.js');
       const llm = new SuppressLLM("OPENAI_API_KEY");
       const server = new SuppresServer();
 
