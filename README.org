@@ -3,8 +3,6 @@
 
 # shield for
 
-https://raster.shields.io/npm/v/ai.suppress.js.png
-
 
 *Are you looking for a way to easily integrate complex AI features into your applications?*
 
@@ -16,10 +14,9 @@ With Suppress, you can quickly and easily add features and *take your app to the
 2. Create a file named =server.js= and add the following code:
     #+BEGIN_SRC javascript
       import {SuppressLLM, DataGenerator, SuppresServer} from 'ai.suppress.js';
-      const llm = new SuppressLLM("API_KEY");
+      const llm = new SuppressLLM("OPENAI_API_KEY");
       const server = new SuppresServer();
 
-      # create hello world route
       server.createEndpoint(
           "/hello/:name/:country",
           "GET",
