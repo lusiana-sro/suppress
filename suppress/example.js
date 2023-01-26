@@ -1,29 +1,52 @@
-// import {suppressLLM, DataGenerator, SuppresServer} from './suppress.js';
-const {SuppressLLM , DataGenerator, SuppresServer} = require('./suppress.js');
+const { SuppressLLM, DataGenerator, SuppresServer } = require('ai.suppress.js');
 
-
-let openAIenvKey = '';
-
-// create an instance of an LLM, by default this is OPENAI
-const llm = new SuppressLLM(openAIenvKey);
-
-// create the server, to host the endpoints
+const llm = new SuppressLLM(mySecret);
+llm
 const server = new SuppresServer();
+// output format for a report on a historical moment
+const outputFormat = `<h1>{event name}</h1>
+<span>{event date</span>
+<p>{description}</p>
+<h2>Related Locations</h2>
+<ul>
+    <li>{location}</li>
+    ...
+</ul>
+<h2>Related People</h2>
+<ul>
+    <li>{person}</li>
+    ...
+</ul>
 
+<h2>Related Organizations</h2>
+<ul>
+    <li>{organization}</li>
+    ...
+</ul>
 
-// now we want the server to do something. Here we build a generator, which will generate a response to a prompt which it receives at the endpoint
-
-// With the generator built, we can now add it to the server
-server.createEndpoint("/generate/:topic/:number", "GET", new DataGenerator(
-    "Write {number} sentences about {topic} .",
-    "[\"sentence\",...]",
-    llm));
-
-server.createEndpoint("/data/historical/:event", "GET", new DataGenerator(
-    "Provide information on {event}. This information must include the date, key figures and key locations",
-    "{\"eventName\":\"string\",\"eventDate\":\"int\",\"keyFigures\":[\"string\",\"string\",\"..\"],\"keyLocations\":[\"string\",\"string\",\"..\"]}",
-    llm));
-
-
-// now we can start the server
-server.start();
+<h2>Related Events</h2>
+<ul>
+    <li>{event}</li>
+    ...
+</ul>
+`
+let generator = new DataGenerator(
+    "Create a report on the historical moment: {eventName}. In this report you will find the date, description, related locations, people, organizations and events.",
+    outputFormat,
+    llm
+  )
+generator.parseJson = false;
+server.createEndpoint(
+  "/report/event/",
+  "GET-query",
+  generator
+);
+server.app.get("/", (req, res) => {
+  res.send(`
+  <form action="/report/event/" method="get">
+    Event Name: <input type="text" name="eventName">
+    <input type="submit" value="Submit">
+  </form>
+  `)
+})
+server.start(3000)

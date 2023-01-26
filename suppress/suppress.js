@@ -16,7 +16,8 @@ class SuppressLLM {
         return await this.api.createCompletion({
             model: "text-davinci-003",
             prompt: prompt,
-            max_tokens: 700,
+            max_tokens: this.max_tokens || 700,
+            temperature: this.temperature || 0.7
         }).then((data) => {
             data = data.data.choices[0].text;
             return data;
@@ -78,6 +79,16 @@ class SuppresServer {
                     // get the link parameters
                     console.log(req.params)
                     generator.generateData(req.params).then((gen)=>{
+                        console.log("gen", gen);
+                        res.send(gen);
+                    });
+                });
+                break;
+            case "GET-query":
+                this.app.get(path, (req, res) => {
+                    // get the link parameters
+                    console.log(req.query)
+                    generator.generateData(req.query).then((gen)=>{
                         console.log("gen", gen);
                         res.send(gen);
                     });

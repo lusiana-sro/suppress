@@ -42,6 +42,7 @@ Learn more about Suppress.js in the DOCS [[./DOCS.org][here]].
 
 * Used By
 + https://feedme.streamlit.app/ This was a proof of concept to see how the underlying architecture of suppress.js could be used to quickly create something.
++ https://replit.com/@velocitatem/suppressjs?v=1 An implementation of Suppress.js to create a report on some historical event. Uses HTML to as a data fromat.
 + https://gitlab.com/-/snippets/2489814 This is a demo of how to use Suppress.js to create a simple backend.
 * Features
 + Currently only runs over the OpenAI API
