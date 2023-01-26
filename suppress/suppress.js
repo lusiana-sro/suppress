@@ -104,4 +104,4 @@ class SuppresServer {
 
 // export all classes
 
-export { suppressLLM, supDataGenerator, SuppresServer };
+export { SuppressLLM, DataGenerator, SuppresServer };
