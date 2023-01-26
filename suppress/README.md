@@ -1,13 +1,15 @@
 
 # Table of Contents
 
-1.  [Get Started](#orgd8eb619)
-2.  [Use Case](#org8c0d58d)
+1.  [Get Started](#org9283b57)
 
-Suppress is a node.js framework which can help you integrate complex features into your applications, with ease. It is built on top of Express.js and uses AI to make your life easier.
+**Are you looking for a way to easily integrate complex features into your applications?**
+
+Look no further than Suppress! Suppress is a node.js framework that makes it easy to add powerful features to your app with just a few lines of code. It is built on top of Express.js and uses AI to make your life easier.
+With Suppress, you can quickly and easily add features and **take your app to the next level!**
 
 
-<a id="orgd8eb619"></a>
+<a id="org9283b57"></a>
 
 # Get Started
 
@@ -33,10 +35,5 @@ Suppress is a node.js framework which can help you integrate complex features in
 3.  Run the server using `node server.js`
 4.  Open your browser and go to `http://localhost:3000/hello/John/China` [Replace with your name and country]
 
-
-<a id="org8c0d58d"></a>
-
-# Use Case
-
--   Define endpoints.
+Learn more about Suppress.js in the DOCS [here](./DOCS.md).
 
