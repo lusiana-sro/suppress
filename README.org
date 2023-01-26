@@ -1,6 +1,11 @@
 #+title: Suppress.js
 #+description: Node.js Backend framework using AI.
 
+# shield for
+[https://raster.shields.io/npm/v/ai.suppress.js]
+[https://packagephobia.com/result?p=ai.suppress.js]
+
+
 *Are you looking for a way to easily integrate complex features into your applications?*
 
 Look no further than Suppress! Suppress is a node.js framework that makes it easy to add powerful features to your app with just a few lines of code. It is built on top of Express.js and uses AI to make your life easier.
@@ -32,3 +37,16 @@ With Suppress, you can quickly and easily add features and *take your app to the
 
 
 Learn more about Suppress.js in the DOCS [[./DOCS.org][here]].
+* Features
++ Currently only runs over the OpenAI API
++ Support for the following LLMs: /Open Ai/
++ Quick and easy to use
++ Easy to integrate into your app
++ Easy to add new features
+
+* Roadmap
++ [ ] Add support for other LLMs
++ [ ] Improve documentation
++ [ ] Add support for other languages
+* Contributing
+Any contributions are welcome, feel free to send me an email at [[mailto:daniel@alves.world]] for any questions or concerns. Im always looking for new ideas and ways to improve the framework.
