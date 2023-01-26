@@ -1,0 +1,68 @@
+* LLM
+For now, this is just a wrapper for openai, but you can extend it to anything you want, all you need is the =constructor= to configure the model and then define =generate()= to... generate.
+* Generator
+The generator is an object responsible for processing /the input/, /the desired output/ and the LLM used to create the response.
+
+We first need to define what we want and what we get:
++ =Template= :: This is the prompt, into which we pass the parameters we get from the request body/params.
++ =Format= :: This should be a string which defines how the result created by the LLM should be processed and formated.
++ =LLM= :: Last but not least, we need to tell the generator what LLM to use.
+
+
+In this example we want to get some information about historical events [maybe not the best example].
+
+Lets first define how we want our final data to look and what model to use:
+#+begin_src javascript
+  const prompt = "Provide information on {event}. This information must include the date, key figures and key locations",
+  const format = {
+   "eventName":"string",
+   "eventDate":"int",
+   "keyFigures":[
+      "string",
+      "string",
+      ".."
+   ],
+   "keyLocations":[
+      "string",
+      "string",
+      ".."
+   ]
+  }
+  const llm = new suppressLLM(openAIenvKey);
+#+end_src
+
+
+Now if we put everything together...
+#+begin_src javascript
+  server.createEndpoint("/data/historical/:event", "GET", new supDataGenerator(
+      "Provide information on {event}. This information must include the date, key figures and key locations",
+      "{\"eventName\":\"string\",\"eventDate\":\"int\",\"keyFigures\":[\"string\",\"string\",\"..\"],\"keyLocations\":[\"string\",\"string\",\"..\"]}",
+      llm));
+#+end_src
+
+Then send a GET to =http://localhost:3000/data/historical/pearl%20harbor=, we get:
+
+#+begin_src json
+{
+  "eventName": "Pearl Harbor Attack",
+  "eventDate": 1941,
+  "keyFigures": [
+    "Admiral Husband Kimmel",
+    "Lieutenant General Walter Short",
+    "Admiral Isoroku Yamamoto"
+  ],
+  "keyLocations": [
+    "Pearl Harbor",
+    "Ford Island",
+    "Hickam",
+    "Wheeler",
+    "Bellows airfields"
+  ]
+}
+#+end_src
+
+
+Cool, no? Ofc, you should be a lot more specific in the prompt, but as a demo, I think this will do :)
+
+* Server
+This is just an easier way to configure =express= to register the endpoints and generators. The most important method of the class is =createEndpoint= which takes the =prompt=, =method= and =generator=.
