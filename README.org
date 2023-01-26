@@ -2,8 +2,8 @@
 #+description: Node.js Backend framework using AI.
 
 # shield for
-https://raster.shields.io/npm/v/ai.suppress.js
-https://packagephobia.com/result?p=ai.suppress.js
+
+https://raster.shields.io/npm/v/ai.suppress.js.png
 
 
 *Are you looking for a way to easily integrate complex features into your applications?*
