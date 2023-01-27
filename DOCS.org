@@ -1,5 +1,8 @@
 * LLM
 For now, this is just a wrapper for openai, but you can extend it to anything you want, all you need is the =constructor= to configure the model and then define =generate()= to... generate.
+| Wrapper        | Prompt Size | Response Time |
+| OpenAI         |             |               |
+| Azure + OpenAI |             |               |
 * Generator
 The generator is an object responsible for processing /the input/, /the desired output/ and the LLM used to create the response.
 

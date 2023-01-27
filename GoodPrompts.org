@@ -1,0 +1,8 @@
+#+title: Prompt Engineering
++ Zero Shot :: This is a kind of prompt that requires no additional information. It is a prompt that can be answered without any additional information. For example, "The capital of France is: " is a zero shot prompt.
++ Few Shot :: In this prompt, we provide some information to the model, and ask for it to expand on that.
+
+
+
+Some articles on Prompt Engineering:
++ https://generative.ink/posts/methods-of-prompt-programming/

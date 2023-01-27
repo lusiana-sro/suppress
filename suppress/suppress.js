@@ -28,19 +28,36 @@ class SuppressLLM {
     }
 }
 
+
+
 class DataGenerator {
     constructor(prompt, format, llm) {
         this.prompt = prompt;
-        this.format = format;
+        // check if the format is a json object
+        if (typeof format === 'object') {
+            this.format = JSON.stringify(format);
+        } else {
+            this.format = format;
+        }
+        console.log(this.format);
         this.llm = llm;
         this.log1 = true;
         this.parseJson = true;
     }
 
+    isJson(str) {
+        try {
+            JSON.parse(str);
+        } catch (e) {
+            return false;
+        }
+        return true;
+    }
+
     async formatOutput(data) {
         let prompt = `${data}\nuse the above data and structure it acording to the following format:\n${this.format}\nStructured data:\n`;
         return await this.llm.generate(prompt).then((output) => {
-            return this.parseJson ? JSON.parse(output) : output;
+            return this.parseJson ? (this.isJson(output) ? JSON.parse(output) : output) : output;
         });
     }
 
@@ -52,7 +69,6 @@ class DataGenerator {
         }
         return await this.llm.generate(tempPrompt).then(async (data) => {
             return await this.formatOutput(data).then((data) => {
-                console.log(data);
                 return data;
             });
         }).catch((error) => {
