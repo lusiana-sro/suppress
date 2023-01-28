@@ -52,10 +52,8 @@ Learn more about Suppress.js in the DOCS [[./DOCS.org][here]].
 + Easy to add new features
 
 * Coming Soon
++ [ ] MongoDB Integration
 + [ ] Azure OpenAI API - Should decrease response time
-+ [ ] LangChain
-  + [ ] Custom MongoDB Tool - should make managing data even easier
-  + [ ] Search - Provide more reliable results for data queries
 * Roadmap Longterm
 + [ ] Completely Non-technical interface for creating a server.
 + [ ] Add support for other LLMs.
