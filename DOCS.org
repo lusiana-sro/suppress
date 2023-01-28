@@ -1,10 +1,41 @@
+#+title: Documentation
 * LLM
 For now, this is just a wrapper for openai, but you can extend it to anything you want, all you need is the =constructor= to configure the model and then define =generate()= to... generate.
-| Model          | Prompt Size | Response Time |
-|----------------+-------------+---------------|
-| OpenAI         |             |               |
-| Azure + OpenAI |             |               |
-* DataStorage
+* Server
+This is just a wrapper around express, it allows you to access the AI tools through HTTP requests.
+
+#+begin_src javascript
+  const {SuppressServer} = require("ai.suppress.js")
+  const server = new SuppressServer()
+#+end_src
+
+** Endpoint Types
+
+
+To create a new endpoint, you have the following options:
++ =GET= :: A simple endpoint which will only consider anything passed in the url.
++ =GET-query= :: Same as =GET= but rather than using =/:these= parameters, it uses =/?these=. This is most useful for using HTML forms.
++ =POST= :: Same as =GET= but will only consider the data passed in the body.
+The above endpoints will respond by using an LLM to generate some content. With the following endpoints, you can make use of AI to manage your data:
++ =GET-db= :: This endpoint kind will take into consideration the entire url (including query options) and will respond with something from the database.
++ =POST-db= :: Same as =GET-db= but rather made for adding new data to the database.
++ =PUT-db= :: This endpoint allows you to modify existing items stored in the database
+
+** Registering
+An endpoint is added in the following way:
+#+begin_src javascript
+  let endpoint = "/say/hello/to/:name"
+  let endpointType = "GET"
+  let generator = DataStorage || DataGenerator
+
+  // now we pass all of it to the server
+  server.createEndpoint(endpoint, endpointType, generator)
+#+end_src
+
+
+You can also add a regular express endpoint making use of =server.app=, which returns the express app object.
+
+* Data Storage
 This can store your data without you having to deal with the database.
 You just send it data as you want, it handles it. Then later you can ask for the data in some undefined way and it will give it to you
 
@@ -17,16 +48,13 @@ First, you need to create a =DataStorage= object. This is the object that will h
 Frankly, it doesnt matter what database name u use, it doesnt care. Now you have to register the endpoint to handle the data. You can do this like this:
 
 #+begin_src javascript
-  const server = new SuppresServer();
   server.mountDatabase(dataStorage);
 #+end_src
 
 
 
 
-
-
-* Generator
+* Data Generator
 The generator is an object responsible for processing /the input/, /the desired output/ and the LLM used to create the response.
 
 We first need to define what we want and what we get:
@@ -89,6 +117,3 @@ Then send a GET to =http://localhost:3000/data/historical/pearl%20harbor=, we ge
 
 
 Cool, no? Ofc, you should be a lot more specific in the prompt, but as a demo, I think this will do :)
-
-* Server
-This is just an easier way to configure =express= to register the endpoints and generators. The most important method of the class is =createEndpoint= which takes the =prompt=, =method= and =generator=.
