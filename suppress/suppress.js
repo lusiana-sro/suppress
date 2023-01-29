@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const {EJSON} = require('bson');
 const { Configuration, OpenAIApi } = require("openai");
+const prompts = require('./prompts.js');
 
 
 
@@ -52,7 +53,7 @@ class DataStorage {
 
     async collectionDecision(data, task, collections) {
         // simulated response of a promise. This should just returh 'todoItems'
-        let prompt = `${data}\nWhich of the following collections should the above data go into? Given that the data was sent under the path "${task}". If none of the collections fit, create a name for the collection which should hold the above data.\n${JSON.stringify(collections)}\nResult:`;
+        let prompt = prompts.database.add.collectionChoice(data, task, collections);
         return await this.llm.generate(prompt).then((data) => {
             // trim the string
             data = data.trim();
@@ -94,24 +95,21 @@ class DataStorage {
         console.log("Processing: " + path);
         const collections = await this.db.db.listCollections().toArray();
         const collectionNames = collections.map(collection => collection.name);
-        let prompt1 = `${path}\nGiven the above request, select one of the following collections, from which to return the data:\n${JSON.stringify(collectionNames)}\nResult:`;
+        let prompt1 = prompts.database.get.collectionChoice(path, collectionNames);
         return await this.llm.generate(prompt1).then(async (collectionName) => {
             collectionName = collectionName.trim().toLowerCase();
             console.log("Collection name: " + collectionName);
             return await this.db.collection(collectionName).findOne().then(async (data) => {
                 data = Object.keys(data);
-                // remove all values that start with _
-                data = data.filter((value) => {
-                    return !value.startsWith("_");
-                });
-                let prompt2 = `${path}\nGiven the above request, create a mongo-db query JSON if you know that there exist the following fields.\n${JSON.stringify(data)}\nQuery using the minimal number of query parameters:`;
+                let prompt2 = prompts.database.get.query(path, data);
                 return await this.llm.generate(prompt2).then(async (query) => {
-                    query = JSON.parse(query);
-                    console.log("Query: ", query);
-                    // find.then()
-                    return await this.db.collection(collectionName).findOne(query).then((data) => {
-                        console.log("Data: ", data);
-                        return data;
+                    console.log("Query: " + query);
+                    query = JSON.parse(query.trim());
+                    return await new Promise((resolve, reject) => {
+                        this.db.collection(collectionName).find(query).toArray(function(err, result) {
+                            if (err) reject(err);
+                            resolve(result);
+                        });
                     });
                 });
             });
@@ -124,41 +122,37 @@ class DataStorage {
         console.log("Processing: " + path);
         const collections = await this.db.db.listCollections().toArray();
         const collectionNames = collections.map(collection => collection.name);
-        let prompt1 = `${path}\nGiven the above request, select one of the following collections, from which to return the data:\n${JSON.stringify(collectionNames)}\nResult:`;
+        let prompt1 = prompts.database.put.collectionChoice(path, collectionNames);
         return await this.llm.generate(prompt1).then(async (collectionName) => {
             collectionName = collectionName.trim();
             collectionName = collectionName.toLowerCase();
-            console.log("Collection name: " + collectionName);
+            console.log("Collection name: ", collectionName);
             return await this.db.collection(collectionName).findOne().then(async (data) => {
-                data = Object.keys(data);
-                // remove all values that start with _
-                data = data.filter((value) => {
+                let keys = Object.keys(data);
+                keys = keys.filter((value) => {
                     return !value.startsWith("_");
                 });
-                let prompt2 = `${path}\nData to update:${JSON.stringify(toUpdate)}\nGiven the above request, create a JSON for mongo-db if you know that there exist the following fields.\n${JSON.stringify(data)}\nQuery using the minimal number of parameters:`;
-                return await this.llm.generate(prompt2).then(async (query) => {
-                    // the query contains atmoic update operators like $set, the query is a stringified JSON
-                    // JSON.parse(query) will not work
-                    // alternatively, we can use: https://www.npmjs.com/package/mongo-querystring
-                    // neither will that, I trid EJSON but that didn't work either
-                    // for now we just extract the values
-                    query = EJSON.parse(query);
-                    // get $set from query and remove it at the same time
-                    let dataU = {$set: query.$set};
-                    delete query.$set;
-                    let filter = query;
-                    console.log("Data: ", dataU);
-                    console.log("Filter: ", filter);
-                    // now we update the record with the new data
-                    return await this.db.collection(collectionName).updateOne(query, dataU).then((data) => {
-                        console.log("Data: ", data);
-                        return data;
+                let prompt2 = prompts.database.put.filter(path, toUpdate, keys);
+                return await this.llm.generate(prompt2).then(async (filter) => {
+                    let prompt3 = prompts.database.put.update(path, toUpdate, keys);
+                    return await this.llm.generate(prompt3).then(async (update) => {
+                        // now use the filter and update to update the database
+                        filter = EJSON.parse(filter.trim());
+                        update = EJSON.parse(update.trim());
+                        console.log("Filter: ", filter);
+                        console.log("Update: ", update);
+                        // update the mongodb database
+                        return await this.db.collection(collectionName).updateOne(filter, update).then((data) => {
+                            console.log("Updated: ", data);
+                            return data;
+
+                        });
+
                     });
                 });
             });
         });
     }
-
 }
 
 
@@ -222,10 +216,10 @@ class SuppresServer {
 
     async mountDatabase(dataStorage) {
         dataStorage.connect().then(() => {
-            this..createEndpoint(/api\/db/,"GET-db",dataStorage);
-            this..createEndpoint(/api\/db/,"POST-db",dataStorage);
-            this..createEndpoint(/api\/db/,"PUT-db",dataStorage);
-        })
+            this.createEndpoint(/api\/db/,"GET-db",dataStorage);
+            this.createEndpoint(/api\/db/,"POST-db",dataStorage);
+            this.createEndpoint(/api\/db/,"PUT-db",dataStorage);
+        });
     }
 
     createEndpoint(path, method, generator) {
