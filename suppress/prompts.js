@@ -4,7 +4,9 @@ module.exports =
         "add": {
             "collectionChoice": (data, task, collections) => {
                 collections = collections.join(", ");
-                return `${data}\nA server has recieved a POST request with the above data. The post request URL was '${task}'. The server has the following database collections: ${collections}.\nChoose one of the collections into which the data should be added. If none of the collections should contain the data, create a new name for a collection.\n Collection name as a simple string:`
+                return `Data:\n${JSON.stringify(data)}\nThe above data was sent under the url: ${task}\nInto which of the following collections should the above data be inserted?\nThe collections available are: ${collections}\nIf none, create a new collection name.\nCollection:`;
+
+                // return `${data}\nA server has recieved a POST request with the above data. The post request URL was '${task}'. The server has the following database collections: ${collections}.\nChoose one of the collections into which the data should be added. If none of the collections should contain the data, create a new name for a collection.\n Collection name as a simple string:`
             }
         },
         "get": {
@@ -23,8 +25,11 @@ module.exports =
                 return `A server has recieved a PUT request. The put request URL was '${path}'. The server has the following database collections: ${collections}.\nChoose one of the collections from which the data should be retrieved. If none of the collections should contain the data, return 'cannot identify collection'.\n Collection name as a simple string:`
             },
             "update": (path, data, keys) => {
-                return `A server has recieved a PUT request.\nData to update: ${JSON.stringify(data)}\nThe request URL was '${path}'. In the database objects are stored with the following keys: ${keys}.\nCreate a stringified mongodb update JSON.\nDo not wrap the JSON in any punctuation. Do not include the filter JSON.Update as a stringified JSON:`
+                return `A server has recieved a PUT request.\nData to update: ${JSON.stringify(data)}\nThe request URL was '${path}'. In the database objects are stored with the following keys: ${keys}.\nCreate a stringified mongodb update JSON. The JSON must include atomic operators.\nDo not wrap the JSON in any punctuation. Do not include the filter JSON.\nUpdate JSON as a stringified JSON:`
 
+            },
+            "atomicCheck": (query) => {
+                return `${query}\nThe above json is an update statement for a mongodb document. Return true if this json contains the correct atomic statements to create an update in the database, if not: create a new statement using the provided data, which makes use of atomic operators.\ntrue or corrected statement:`
             },
             "filter": (path, data, keys) => {
                 return `A server has recieved a PUT request.\nData to update: ${JSON.stringify(data)}\nThe request URL was '${path}'. In the database objects are stored with the following keys: ${keys}.\nCreate a stringified mongodb filtering JSON.\nDo not wrap the JSON in any punctuation. Do not include the data update JSON.Filter as a stringified JSON:`

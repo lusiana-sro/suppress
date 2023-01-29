@@ -1,4 +1,6 @@
 const express = require('express');
+// import cors
+const cors = require('cors');
 const mongoose = require('mongoose');
 const {EJSON} = require('bson');
 const { Configuration, OpenAIApi } = require("openai");
@@ -38,7 +40,7 @@ class SuppressLLM {
             return this.stringReturnHandler(data);
         }).catch((error) => {
             console.error(error);
-            return error;
+            throw error;
         });
     }
 }
@@ -151,16 +153,21 @@ class DataStorage {
                     return await this.llm.generate(prompt3).then(async (update) => {
                         // now use the filter and update to update the database
                         filter = EJSON.parse(filter.trim());
-                        update = EJSON.parse(update.trim());
                         console.log("Filter: ", filter);
-                        console.log("Update: ", update);
-                        // update the mongodb database
-                        return await this.db.collection(collectionName).updateOne(filter, update).then((data) => {
-                            console.log("Updated: ", data);
-                            return data;
-
-                        });
-
+                        // check if the update statement is correct, use the llm
+                        let prompt4 = prompts.database.put.atomicCheck(update);
+                        return await this.llm.generate(prompt4).then(async (updateC) => {
+                            updateC = updateC.trim();
+                            let isCorrect = updateC.toLowerCase() === "true";
+                            update = isCorrect ? update : updateC;
+                            update = EJSON.parse(update);
+                            console.log("Update: ", update);
+                            // update the mongodb database
+                            return await this.db.collection(collectionName).updateOne(filter, update).then((data) => {
+                                console.log("Updated: ", data);
+                                return data;
+                            });
+                        })
                     });
                 });
             });
@@ -224,6 +231,7 @@ class SuppresServer {
     constructor() {
         this.app = express();
         this.app.use(express.json());
+        this.app.use(cors());
         this.app.use(express.urlencoded({ extended: true }));
     }
 
@@ -241,11 +249,14 @@ class SuppresServer {
             case "GET":
                 this.app.get(path, (req, res) => {
                     // get the link parameters
-                    console.log(req.params)
-                    generator.generateData(req.params).then((gen)=>{
-                        console.log("gen", gen);
-                        res.send(gen);
-                    });
+                    try {
+                        generator.generateData(req.params).then((gen)=>{
+                            console.log("gen", gen);
+                            res.send(gen);
+                        });
+                    } catch (e) {
+                        res.send(e);
+                    }
                 });
                 break;
             case "GET-query":
@@ -261,20 +272,28 @@ class SuppresServer {
             case "GET-db":
                 this.app.get(path, async (req, res) => {
                     let rpath = req.originalUrl;
-                    await generator.get(rpath).then((data) => {
-                        res.send(data);
-                        return;
-                    });
+                    try {
+                        await generator.get(rpath).then((data) => {
+                            res.send(data);
+                            return;
+                        });
+                    } catch(e) {
+                        res.send(e);
+                    }
                 });
                 break;
 
             case "POST-db":
                 this.app.post(path, async (req, res) => {
                     let rpath = req.originalUrl;
-                    await generator.add(req.body, rpath).then((data) => {
-                        res.send(data);
-                        return;
-                    });
+                    try {
+                        await generator.add(req.body, rpath).then((data) => {
+                            res.send(data);
+                            return;
+                        });
+                    } catch (e) {
+                        res.send(e);
+                    }
                 });
                 break;
             case "POST":
@@ -286,10 +305,14 @@ class SuppresServer {
             case "PUT-db":
                 this.app.put(path, async (req, res) => {
                     let rpath = req.originalUrl;
-                    await generator.update(req.body, rpath).then((data) => {
-                        res.send(data);
-                        return;
-                    });
+                    try {
+                        await generator.update(req.body, rpath).then((data) => {
+                            res.send(data);
+                            return;
+                        });
+                    } catch (e) {
+                        res.send(e);
+                    }
                 });
                 break;
             default:

@@ -46,11 +46,10 @@ Learn more about Suppress.js in the DOCS [[./DOCS.org][here]].
 + https://replit.com/@velocitatem/suppressjs?v=1 An implementation of Suppress.js to create a report on some historical event. Uses HTML to as a data fromat.
 + https://gitlab.com/-/snippets/2489814 This is a demo of how to use Suppress.js to create a simple backend.
 * Features
-+ Currently only runs over the OpenAI API
++ Gives structure to data produced by LLMs
++ Allows for effortless integration of AI into existing projects
++ You send the data, suppress handles it. You want the data? Suppress gets it.
 + Support for the following LLMs: /Open Ai/
-+ Quick and easy to use
-+ Easy to integrate into your app
-+ Easy to add new features
 
 * Coming Soon
 + [ ] MongoDB Integration
