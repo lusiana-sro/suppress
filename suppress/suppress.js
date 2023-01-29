@@ -15,6 +15,18 @@ class SuppressLLM {
         this.api = new OpenAIApi(this.config);
     }
 
+    stringReturnHandler(str) {
+        // some strings will come back with a trailing ' or ` at the start and end
+        // this function removes those
+        if (str[0] === "'" || str[0] === "`") {
+            str = str.slice(1);
+        }
+        if (str[str.length - 1] === "'" || str[str.length - 1] === "`") {
+            str = str.slice(0, str.length - 1);
+        }
+        return str;
+
+    }
     async generate(prompt) {
         return await this.api.createCompletion({
             model: "text-davinci-003",
@@ -23,7 +35,7 @@ class SuppressLLM {
             temperature: this.temperature || 0.7
         }).then((data) => {
             data = data.data.choices[0].text;
-            return data;
+            return this.stringReturnHandler(data);
         }).catch((error) => {
             console.error(error);
             return error;
@@ -37,6 +49,7 @@ class DataStorage {
         this.dbname = databaseName;
         this.llm = new SuppressLLM(apiKey);
     }
+
 
     async connect() {
         // connect to the database
