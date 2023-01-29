@@ -3,8 +3,7 @@
 
 # shield for
 
-
-
+[[./logo.png]]
 
 *Are you looking for a way to easily integrate complex AI features into your applications?*
 
