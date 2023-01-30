@@ -14,7 +14,6 @@ This is just a wrapper around express, it allows you to access the AI tools thro
 
 To create a new endpoint, you have the following options:
 + =GET= :: A simple endpoint which will only consider anything passed in the url.
-+ =GET-query= :: Same as =GET= but rather than using =/:these= parameters, it uses =/?these=. This is most useful for using HTML forms.
 + =POST= :: Same as =GET= but will only consider the data passed in the body.
 The above endpoints will respond by using an LLM to generate some content. With the following endpoints, you can make use of AI to manage your data:
 + =GET-db= :: This endpoint kind will take into consideration the entire url (including query options) and will respond with something from the database.

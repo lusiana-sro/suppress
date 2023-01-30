@@ -250,6 +250,7 @@ class SuppresServer {
                 this.app.get(path, (req, res) => {
                     // get the link parameters
                     try {
+                        const params = Object.assign({}, req.params, req.query);
                         generator.generateData(req.params).then((gen)=>{
                             console.log("gen", gen);
                             res.send(gen);
@@ -257,16 +258,6 @@ class SuppresServer {
                     } catch (e) {
                         res.send(e);
                     }
-                });
-                break;
-            case "GET-query":
-                this.app.get(path, (req, res) => {
-                    // get the link parameters
-                    console.log(req.query)
-                    generator.generateData(req.query).then((gen)=>{
-                        console.log("gen", gen);
-                        res.send(gen);
-                    });
                 });
                 break;
             case "GET-db":
