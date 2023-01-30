@@ -33,7 +33,7 @@ class SuppressLLM {
         return await this.api.createCompletion({
             model: "text-davinci-003",
             prompt: prompt,
-            max_tokens: this.max_tokens || 200,
+            max_tokens: this.max_tokens || 700,
             temperature: this.temperature || 0.7
         }).then((data) => {
             data = data.data.choices[0].text;
@@ -290,7 +290,10 @@ class SuppresServer {
             case "POST":
                 this.app.post(path, (req, res) => {
                     console.log(req.body);
-                    res.send(generator.generateData(req.body));
+                    generator.generateData(req.body).then((gen) => {
+                        console.log("gen", gen);
+                        res.send(gen);
+                    });
                 });
                 break;
             case "PUT-db":

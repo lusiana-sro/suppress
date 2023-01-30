@@ -1,0 +1,39 @@
+#+title: Processing Research Responses
+
+A friend of mine was doing a research project on financial literacy. She sent us some questions, and another friend of mine respond in great detail. Her response:
+
+#+begin_quote
+Jesus thank you so much but this had to be written into sheets and it wouldn’t fit what so ever, cuz we also take all the answers and calculate the most common answers. But thank you anyway, I just couldn’t use it.
+#+end_quote
+
+That sucks, not if suppress.js can help it :)
+
+First, we take the questions and create a new prompt:
+
+#+begin_src javascript
+  let prompt = `
+  {questions}
+  {answers}
+  Extract the answers from the responses and assign them to the questions.`
+#+end_src
+
+Now, the format in which we want our final data. First we used a JSON but can use json2csv to put it into a spreadsheet.
+
+#+begin_src javascript
+  let formatedQuestions = {
+      "usesDebitCard": {
+          "question": "do you use a debit card",
+          "answer": "BOOLEAN"
+      },
+      ...
+      "averageTransactionAmount": {
+          "question": "What would you estimate is the average dollar amount of each transaction on your card? $10 or less, more than $10 but less than $50",
+          "answer": ["lt10", "gt10lt50"]
+      },
+  };
+
+#+end_src
+
+All that is left is to create a =DataGenerator= as explained in the docs, and we can start processing our dat!
+
+We fire up the server, and send of the user responses. What we get back can be found [[./response.json][HERE]]. Just like that, we parsed data in under 10 minutes of work, which we can now utilize for dozens of responses.
