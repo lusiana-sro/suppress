@@ -1,8 +1,17 @@
-+ Automated research processing :: With suppress, you can make processing and extracting data from user responses much easier.
-  #+INCLUDE: ./demos/research/README.org
-+ Automating customer service :: Use Suppress to automate customer service inquiries and provide speedy responses to customers. Automatically categorize inquiries, route them to the right department, and offer personalized advice to customers.
-+ Automated content generation :: Use Suppress to generate high-quality content for your website or blog. Automatically generate articles, blog posts, product descriptions, and more, using natural language processing.
-+ Automated sentiment analysis :: Use Suppress to analyze customer feedback and reviews. Automatically detect and measure sentiment in text, helping you to better understand customer opinions and drive better decision making.
-+ Automated natural language processing :: Use Suppress to provide natural language processing capabilities in your applications. Automatically process text to extract entities, relationships, and more, helping you to gain valuable insights.
-+ Automated chatbot conversations :: Use Suppress to create intelligent chatbots that can understand and respond to user queries. Automatically generate natural conversations and provide helpful advice to users.
-+ Automated data analysis :: Use Suppress to perform complex data analysis tasks. Automatically extract insights from data and deliver valuable information to users.
+* Automated research processing
+With suppress, you can make processing and extracting data from user responses much easier.
++ Why? :: Although a direct survey is a great way to collect quantitative data, qualitative data might provide much more insight. With suppress, you can easily extract qualitative data from user responses and process it in a way that is easy to understand and analyze, without losing the ability to collect quantitative data.
+
++ Example :: [[./demos/research/README.org][Financial literacy research]]
+
+* Automating customer service
+Use Suppress to automate customer service inquiries and provide speedy responses to customers. Automatically categorize inquiries, route them to the right department, and offer personalized advice to customers.
+
+* Automated content generation
+Use Suppress to generate high-quality content for your website or blog.
+* Automated sentiment analysis
+Use Suppress to analyze customer feedback and reviews. Automatically detect and measure sentiment in text, helping you to better understand customer opinions and drive better decision making.
+* Automated natural language processing
+Use Suppress to provide natural language processing capabilities in your applications. Automatically process text to extract entities, relationships, and more, helping you to gain valuable insights.
+* Automated data analysis
+Use Suppress to perform complex data analysis tasks. Automatically extract insights from data and deliver valuable information to users.

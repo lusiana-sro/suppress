@@ -20,13 +20,7 @@ class SuppressLLM {
     stringReturnHandler(str) {
         // some strings will come back with a trailing ' or ` at the start and end
         // this function removes those
-        if (str[0] === "'" || str[0] === "`") {
-            str = str.slice(1);
-        }
-        if (str[str.length - 1] === "'" || str[str.length - 1] === "`") {
-            str = str.slice(0, str.length - 1);
-        }
-        return str;
+        return str.replaceAll(/['`]/g, '');
 
     }
     async generate(prompt) {
@@ -45,7 +39,16 @@ class SuppressLLM {
     }
 }
 
+/*
+  This class is used to store data in a mongodb database
+*/
 class DataStorage {
+
+    /*
+     * Constructor for the DataStorage class
+     * @param {string} databaseName - The name of the database to connect to
+     * @param {string} apiKey - OpenAI API key
+     */
     constructor (databaseName, apiKey) {
         // connect to a mongodb database by name and save the connection to this.db
         this.dbname = databaseName;
@@ -53,6 +56,9 @@ class DataStorage {
     }
 
 
+    /*
+      This function is used to connect to the database
+    */
     async connect() {
         // connect to the database
         await mongoose.connect(`mongodb://localhost:27017/${this.dbname}`, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -66,6 +72,12 @@ class DataStorage {
     }
 
 
+    /*
+      This function is used to decide which collection to use for a given task
+      @param {object} data - The data to be stored
+      @param {string} task - The task to be performed
+      @param {array} collections - The collections to choose from
+    */
     async collectionDecision(data, task, collections) {
         // simulated response of a promise. This should just returh 'todoItems'
         let prompt = prompts.database.add.collectionChoice(data, task, collections);
@@ -78,7 +90,13 @@ class DataStorage {
 
     }
 
+    /*
+      This function is used to add data to the database
+      @param {object} data - The data to be stored
+      @param {string} task - The task to be performed aka the request url
+    */
     async add(data, task) {
+
         // check the database collections for a collection with the same structure
         // if it exists, add the data to it
         // if it doesn't exist, create a new collection with the same structure
@@ -106,6 +124,10 @@ class DataStorage {
         });
     }
 
+    /*
+      This function is used to get data from the database
+      @param {string} path - The path to the get the data
+    */
     async get(path) {
         console.log("Processing: " + path);
         const collections = await this.db.db.listCollections().toArray();
@@ -131,6 +153,11 @@ class DataStorage {
         });
     }
 
+    /*
+      This function is used to update data in the database
+      @param {object} data - The data which should replace the old data
+      @param {string} path - The path of the URL to update the data
+    */
     async update(data, path) {
         // the code is redundant and non modular relative to get, but it works
         let toUpdate = data;
@@ -177,7 +204,15 @@ class DataStorage {
 
 
 
+
 class DataGenerator {
+
+    /*
+      This function is used to generate data based on the prompt and format
+      @param {string} prompt - The prompt to generate the data
+      @param {string} format - The format of the data to be generated
+      @param {object} llm - The language model to use to generate the data
+    */
     constructor(prompt, format, llm) {
         this.prompt = prompt;
         // check if the format is a json object
@@ -192,6 +227,10 @@ class DataGenerator {
         this.parseJson = true;
     }
 
+    /*
+      This function is used to check if a string is a json object
+      @param {string} str - The string to check
+    */
     isJson(str) {
         try {
             JSON.parse(str);
@@ -201,6 +240,10 @@ class DataGenerator {
         return true;
     }
 
+    /*
+      This function is used to format the output of the data
+      @param {object} data - The data to format
+    */
     async formatOutput(data) {
         let prompt = `${data}\nuse the above data and structure it acording to the following format:\n${this.format}\nStructured data:\n`;
         return await this.llm.generate(prompt).then((output) => {
@@ -208,6 +251,10 @@ class DataGenerator {
         });
     }
 
+    /*
+      This function is used to generate data
+      @param {object} data - The data which gets passed to the prompt to generate the data
+    */
     async generateData(data) {
         let tempPrompt = this.prompt;
         // data is a json, in the tempPrompt, replace the keys with the values
@@ -228,6 +275,7 @@ class DataGenerator {
 }
 
 class SuppresServer {
+
     constructor() {
         this.app = express();
         this.app.use(express.json());
@@ -235,6 +283,10 @@ class SuppresServer {
         this.app.use(express.urlencoded({ extended: true }));
     }
 
+    /*
+      This function is used to mount the database to the server
+      @param {DataStorage} dataStorage - The database to mount
+    */
     async mountDatabase(dataStorage) {
         dataStorage.connect().then(() => {
             this.createEndpoint(/api\/db/,"GET-db",dataStorage);
@@ -243,6 +295,12 @@ class SuppresServer {
         });
     }
 
+    /*
+      This function is used to create an endpoint for the server
+      @param {string} path - The path of the endpoint
+      @param {string} method - The method of the endpoint (GET, GET-db, POST, POST-db, PUT-db)
+      @param {DataGenerator} generator - The generator to use to generate the data
+    */
     createEndpoint(path, method, generator) {
         // based on the method
         switch (method) {
@@ -315,6 +373,11 @@ class SuppresServer {
         }
 
     }
+
+    /*
+      This function is used to start the server
+      @param {number} port - The port to start the server on
+    */
     start(port) {
         port = port || 3000;
         this.app.listen(port, () => {

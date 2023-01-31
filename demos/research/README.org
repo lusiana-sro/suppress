@@ -6,6 +6,10 @@ A friend of mine was doing a research project on financial literacy. She sent us
 Jesus thank you so much but this had to be written into sheets and it wouldn’t fit what so ever, cuz we also take all the answers and calculate the most common answers. But thank you anyway, I just couldn’t use it.
 #+end_quote
 
+Here is a graphic to demonstrate what we are going to do:
+
+[[./visual.png]]
+
 That sucks, not if suppress.js can help it :)
 
 First, we take the questions and create a new prompt:
@@ -36,4 +40,53 @@ Now, the format in which we want our final data. First we used a JSON but can us
 
 All that is left is to create a =DataGenerator= as explained in the docs, and we can start processing our dat!
 
-We fire up the server, and send of the user responses. What we get back can be found [[./response.json][HERE]]. Just like that, we parsed data in under 10 minutes of work, which we can now utilize for dozens of responses.
+We fire up the server, and send of the user responses. What we get back can be found lower. Just like that, we parsed data in under 10 minutes of work, which we can now utilize for dozens of responses.
+
+#+begin_src json
+{
+  "usesDebitCard": {
+    "question": "Do you use a debit card?",
+    "answer": "Yes"
+  },
+  "numberOfCards": {
+    "question": "How many cards do you carry in your wallet?",
+    "answer": "2"
+  },
+  "hasStoreBrandCard": {
+    "question": "Do you have store brand card or major credit card?",
+    "answer": "No"
+  },
+  "numberOfTransactions": {
+    "question": "How many times a week do you use a credit debit card?",
+    "answer": "More than 5 times"
+  },
+  "averageTransactionAmount": {
+    "question": "What would you estimate is the average dollar amount of each transaction on your card? $10 or less, more than $10 but less than $50",
+    "answer": "Ranges from 1 euro to 35 euro"
+  },
+  "incentives": {
+    "question": "What incentives are offered by your debit card?",
+    "answer": [
+      "Cashback in select stores",
+      "0% exchange rate",
+      "Fee-less withdrawals from any ATM across the world"
+    ]
+  },
+  "advantages": {
+    "question": "What are the advantages of using one?",
+    "answer": [
+      "No need for cash to bulk up your wallet",
+      "The ability to purchase items online",
+      "In some cases, can be used as a form of identity verification",
+      "Easier way to track your spending; this leads to improved security as your bank will notify you if your spending habits suddenly change, for example, when your card is stolen"
+    ]
+  },
+  "disadvantages": {
+    "question": "What are the disadvantages?",
+    "answer": [
+      "Since you don't need cash, a lot of the time you don't carry it around",
+      "If your card gets stolen, it's easy to lose a lot of money if you don't have a low limit imposed"
+    ]
+  }
+}
+#+end_src
