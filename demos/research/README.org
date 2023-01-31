@@ -10,6 +10,8 @@ Here is a graphic to demonstrate what we are going to do:
 
 [[./visual.png]]
 
+[[./json_visual.png]]
+
 That sucks, not if suppress.js can help it :)
 
 First, we take the questions and create a new prompt:
