@@ -8,6 +8,7 @@ const prompts = require('./prompts.js');
 
 
 
+
 class SuppressLLM {
     constructor (apiKey) {
         this.apiKey = apiKey;
@@ -225,6 +226,18 @@ class DataGenerator {
         this.llm = llm;
         this.log1 = true;
         this.parseJson = true;
+        this.doFormat = true;
+    }
+
+    /*
+        This function is used to set the value of a key in the class
+        @param {object} change - The object containing the key and value to be changed
+    */
+    set(change) {
+        for (let key in change) {
+            this[key] = change[key];
+        }
+        return this;
     }
 
     /*
@@ -245,17 +258,30 @@ class DataGenerator {
       @param {object} data - The data to format
     */
     async formatOutput(data) {
-        let prompt = `${data}\nuse the above data and structure it acording to the following format:\n${this.format}\nStructured data:\n`;
-        return await this.llm.generate(prompt).then((output) => {
-            return this.parseJson ? (this.isJson(output) ? JSON.parse(output) : output) : output;
-        });
+        console.log("Will format output", this.format);
+        if (this.doFormat) {
+            let prompt = `${data}\nuse the above data and structure it acording to the following format:\n${this.format}\nStructured data:\n`;
+
+            return await this.llm.generate(prompt).then((output) => {
+                console.log("Output: ", output);
+                return this.parseJson ? (this.isJson(output) ? JSON.parse(output) : output) : output;
+            });
+        } else {
+            return data;
+        }
     }
 
+    set(change) {
+        for (let key in change) {
+            this[key] = change[key];
+        }
+        return this;
+    }
     /*
       This function is used to generate data
       @param {object} data - The data which gets passed to the prompt to generate the data
     */
-    async generateData(data) {
+    async generate(data) {
         let tempPrompt = this.prompt;
         // data is a json, in the tempPrompt, replace the keys with the values
         for (let key in data) {
@@ -269,9 +295,7 @@ class DataGenerator {
             console.error(error.message);
             return error;
         });
-
     }
-
 }
 
 class SuppresServer {
@@ -309,7 +333,7 @@ class SuppresServer {
                     // get the link parameters
                     try {
                         const params = Object.assign({}, req.params, req.query);
-                        generator.generateData(req.params).then((gen)=>{
+                        generator.generate(req.params).then((gen)=>{
                             console.log("gen", gen);
                             res.send(gen);
                         });
@@ -348,7 +372,7 @@ class SuppresServer {
             case "POST":
                 this.app.post(path, (req, res) => {
                     console.log(req.body);
-                    generator.generateData(req.body).then((gen) => {
+                    generator.generate(req.body).then((gen) => {
                         console.log("gen", gen);
                         res.send(gen);
                     });
@@ -386,6 +410,27 @@ class SuppresServer {
     }
 }
 
+
+class SuppressSequence {
+
+    constructor() {
+        this.sequence = [];
+    }
+
+    add(component) {
+        this.sequence.push(component);
+        return this;
+    }
+
+    async generate(input) {
+        let output = input;
+        for (let i = 0; i < this.sequence.length; i++) {
+            output = await this.sequence[i].generate(output);
+        }
+        return output;
+    }
+}
+
 // export all classes
 
-module.exports = { SuppressLLM, DataGenerator, SuppresServer, DataStorage };
+module.exports = { SuppressLLM, DataGenerator, SuppresServer, DataStorage, SuppressSequence };

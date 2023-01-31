@@ -1,0 +1,19 @@
+{
+    "name": "mix.suppress.js",
+    "version": "1.0.0",
+    "main": "suppress_py.js",
+    "description": "Node.js Backend framework using AI.",
+    "homepage": "https://github.com/velocitatem/suppress",
+    "scripts": {
+        "test": "jest",
+        "postinstall": "node ./check-python.js"
+    },
+    "keywords": ["AI", "ML", "Python", "JavaScript", "backed"],
+    "author": "Daniel Alves Rosel",
+    "license": "ISC",
+    "dependencies": {
+        "ai.suppress.js": "^1.2.6",
+        "jest": "^29.4.1",
+        "python-shell": "^3.0.1"
+    }
+}
