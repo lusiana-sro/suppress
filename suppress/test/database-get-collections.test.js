@@ -1,8 +1,8 @@
-const {SuppressLLM} = require('../suppress');
+const {OpenAILLM} = require('../suppress');
 const prompts = require('../prompts');
 const config = require('./config.json');
 
-let llm = new SuppressLLM(config.key);
+let llm = new OpenAILLM(config.key).beIrresnponsible();
 
 
 let collections = ["users", "beers", "clients", "orders", "reviews", "user_types"];
@@ -30,9 +30,9 @@ let mat = [
 ]
 
 
-posts.forEach((post) => {
+mat.forEach(async (post) => {
     console.log(post[1]);
-    test("Correctly identifies existing collection - "+post[0], async () => {
+    await test("Correctly identifies existing collection - "+post[0], async () => {
         await llm.generate(prompts.database.get.collectionChoice(post[0], collections)).then((answer) => {
             answer = answer.toLowerCase().trim();
             let exp = post[1];

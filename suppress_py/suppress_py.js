@@ -1,8 +1,8 @@
-const {SuppressLLM} = require('ai.suppress.js');
+const {SuppressModel} = require('ai.suppress.js');
 const {PythonShell} = require('python-shell');
 
 
-class HuggingFaceLLM {
+class HuggingFaceLLM extends SuppressModel {
 
     constructor(props) {
         this.props = props;

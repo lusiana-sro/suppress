@@ -1,6 +1,6 @@
 // import all the components we are going to use
 const {
-    SuppressLLM,
+    OpenAILLM,
     DataGenerator,
     SuppresServer,
     DataStorage }
@@ -21,7 +21,7 @@ const server = new SuppresServer();
 
 
 // create new instance of an LLM
-const llm = new SuppressLLM(config.key);
+const llm = new OpenAILLM(config.key);
 
 
 let prompt = `

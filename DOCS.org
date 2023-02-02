@@ -81,7 +81,7 @@ Lets first define how we want our final data to look and what model to use:
       ".."
    ]
   }
-  const llm = new suppressLLM(openAIenvKey);
+  const llm = new OpenAILLM(openAIenvKey);
 #+end_src
 
 

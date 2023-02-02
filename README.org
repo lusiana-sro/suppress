@@ -13,9 +13,9 @@ Here is an [[https://www.linkedin.com/pulse/backend-ai-daniel-rosel][article]] d
 1. =npm i ai.suppress.js=
 2. Create a file named =server.js= and add the following code:
     #+BEGIN_SRC javascript
-      const {SuppressLLM , DataGenerator, SuppresServer} = require('ai.suppress.js');
+      const {OpenAILLM , DataGenerator, SuppresServer} = require('ai.suppress.js');
 
-      const llm = new SuppressLLM("OPENAI_API_KEY");
+      const llm = new OpenAILLM("OPENAI_API_KEY");
       const server = new SuppresServer();
 
       server.createEndpoint(

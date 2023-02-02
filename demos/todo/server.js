@@ -1,6 +1,6 @@
 // import all the components we are going to use
 const {
-    SuppressLLM,
+    OpenAILLM,
     DataGenerator,
     SuppresServer,
     DataStorage }
@@ -35,7 +35,7 @@ server.mountDatabase(dataStorage);
  */
 
 // create new instance of an LLM
-const llm = new SuppressLLM(config.key);
+const llm = new OpenAILLM(config.key);
 
 const dataGenerator = new DataGenerator(
     "Write a motivational sentence, to encourage a user to complete their task: {task}.\nMotivational sentence:", // we want to get motivational quotes to complete specific tasks

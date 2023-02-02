@@ -9,21 +9,94 @@ const prompts = require('./prompts.js');
 
 
 
-class SuppressLLM {
-    constructor (apiKey) {
-        this.apiKey = apiKey;
-        this.config = new Configuration({
-            apiKey: this.apiKey
-        });
-        this.api = new OpenAIApi(this.config);
+class SuppressModel {
+    constructor() {
     }
 
     stringReturnHandler(str) {
         // some strings will come back with a trailing ' or ` at the start and end
         // this function removes those
         return str.replaceAll(/['`]/g, '');
+    }
+    generate () {
+        throw new Error('You have to implement the method generate!');
+    }
+}
+
+class OpenAILLM extends SuppressModel {
+    /*
+     * @param apiKey: the OpenAI API key
+     */
+    constructor (apiKey) {
+        super();
+        this.apiKey = apiKey;
+        this.config = new Configuration({
+            apiKey: this.apiKey
+        });
+        this.api = new OpenAIApi(this.config);
+        this.about = {
+            model: "OpenAI GPT-3",
+            FERTP: {
+                Explainability: {
+                    Metric: "Accuracy",
+                    Value: 86.4,
+                    Source: "https://arxiv.org/pdf/2005.14165.pdf"
+                },
+                Fairness: {
+                    Metric: "Disparate Impact",
+                    Value: null
+                },
+                Robustness: {
+                    Metric: "Attack Success Rate",
+                    Value: null
+                },
+                Transparency: {
+                    Metric: "Documentation",
+                    Value: 0.4
+                },
+                Privacy: {
+                    Metric: "Data Breach Rate",
+                    Value: null
+                },
+            },
+            weaknesses: [
+                "Is known to have generated racist and sexist content",
+                "Training data includes copyrighted material",
+                "Can be very confidently wrong"
+            ],
+            weaknessesSources: [
+                "https://tcrn.ch/30BQhqn",
+                "https://medium.com/science-and-philosophy/gpt-3-quickly-turns-racist-b270c6f40050"
+            ],
+            strengths: [
+                "Capable of processing large inputs",
+                "Creates coherent and grammatically correct text",
+                "Can be used to generate code"
+            ]
+        }
 
     }
+
+    beIrresnponsible () {
+        this.irresponsible = true;
+        return this;
+    }
+
+
+    setPreviousModel (previousModel) {
+        this.previousModel = previousModel;
+    }
+
+    responsibleResponse(output) {
+        return {
+            "response": output,
+            "meta": {
+                "about": this.about,
+                "previousModel": this.previousModel
+            }
+        };
+    }
+
     async generate(prompt) {
         return await this.api.createCompletion({
             model: "text-davinci-003",
@@ -32,7 +105,20 @@ class SuppressLLM {
             temperature: this.temperature || 0.7
         }).then((data) => {
             data = data.data.choices[0].text;
-            return this.stringReturnHandler(data);
+            let res = this.stringReturnHandler(data);
+            // try parse teh response as JSON
+            try {
+                res = JSON.parse(res);
+            } catch (e) {
+                // if it fails, just return the string
+            }
+            // check if should be irresponsible
+            if(this.irresponsible) {
+                return res;
+            } else {
+                return this.responsibleResponse(res);
+            }
+
         }).catch((error) => {
             console.error(error);
             throw error;
@@ -53,7 +139,7 @@ class DataStorage {
     constructor (databaseName, apiKey) {
         // connect to a mongodb database by name and save the connection to this.db
         this.dbname = databaseName;
-        this.llm = new SuppressLLM(apiKey);
+        this.llm = new OpenAILLM(apiKey).beIrresnponsible();
     }
 
 
@@ -195,7 +281,7 @@ class DataStorage {
                                 console.log("Updated: ", data);
                                 return data;
                             });
-                        })
+                        });
                     });
                 });
             });
@@ -260,6 +346,7 @@ class DataGenerator {
     async formatOutput(data) {
         console.log("Will format output", this.format);
         if (this.doFormat) {
+            data = data.response;
             let prompt = `${data}\nuse the above data and structure it acording to the following format:\n${this.format}\nStructured data:\n`;
 
             return await this.llm.generate(prompt).then((output) => {
@@ -433,4 +520,4 @@ class SuppressSequence {
 
 // export all classes
 
-module.exports = { SuppressLLM, DataGenerator, SuppresServer, DataStorage, SuppressSequence };
+module.exports = { OpenAILLM, DataGenerator, SuppresServer, DataStorage, SuppressSequence, SuppressModel };

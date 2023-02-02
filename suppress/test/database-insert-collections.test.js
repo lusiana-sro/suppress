@@ -1,8 +1,8 @@
-const {SuppressLLM} = require('../suppress');
+const {OpenAILLM} = require('../suppress');
 const prompts = require('../prompts');
 const config = require('./config.json');
 
-let llm = new SuppressLLM(config.key);
+let llm = new OpenAILLM(config.key).beIrresnponsible();
 
     // test POST requests to insert new data into the database
 let posts = [
@@ -16,9 +16,9 @@ let posts = [
 let answers = ['bloodtype', 'beer', 'beer', 'user', 'user'];
 
 let collections = [];
-posts.forEach((post) => {
+posts.forEach(async (post) => {
     console.log(post[1]);
-    test("Correctly identifies existing collection - "+post[0], async () => {
+    await test("Correctly identifies existing collection - "+post[0], async () => {
         await llm.generate(prompts.database.add.collectionChoice(post[1], post[0], collections)).then((answer) => {
             answer = answer.toLowerCase().trim();
             let exp = answers.shift();
