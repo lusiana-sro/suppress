@@ -1,0 +1,35 @@
+#+title: Content Generation
+
+In this case, the example may not be the best practice of responsible AI usage, as the content which is generate could be biased. Why? We are telling the model to create some sort of evaluation based on a geographical location and the users perception.
+How can we improve this? Suppress.js is soon releasing a new feature which will help you better evaluate the content you are generating.
+
+Forgot to ask your client/surveyee a question? No problem! As long as it is reasonable to use the existing data to generate some content, you can do so.
+
+In this example, we will generate testimonials on how people feel about the city they come from. The data we have is: Their name, city, and a rating of how much they like their city (this is a mix of various types of data).
+
+In this demo, you can also nicely see how easy it is to use suppress.js in various types of software. Our data is in a google sheet. First, we create a new suppress endpoint:
+
+#+begin_src javascript
+server.createEndpoint(
+    "/api/testimonial/:name/:location/:feelings",
+    "GET",
+    new DataGenerator(
+        "Name: {name}\nLocation: {location}\nFeelings: {feelings}\nGiven the above information about the person above. Create a testimonial written by them. This testimonial should be in the first person and maximum 3 sentences long.\nTestimonial:",
+        // response html
+        JSON.stringify({
+            "testimonial": "string"
+        }),
+        llm
+    )
+);
+#+end_src
+
+In the google sheet, we create url paths for each row. We use the name, location, and feelings columns to generate the url path. We then use the =IMPORTDATA()= function to import the data from the url path.
+
+[[./Peek 2023-02-07 14-53.gif]]
+
+Now we can send a request to the endpoint and get a response:
+
+[[./Peek 2023-02-07 15-10.gif]]
+
+And done, like this we can easily and quickly generate content using AI. We could just as easily conduct a sentiment analysis or anything you can think of.
