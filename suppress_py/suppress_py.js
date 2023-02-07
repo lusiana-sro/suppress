@@ -1,38 +1,47 @@
-const {SuppressModel} = require('ai.suppress.js');
+const {SuppressModel} = require('/home/velocitatem/Documents/Projects/suppress/suppress/suppress.js');
 const {PythonShell} = require('python-shell');
 
+/*
+
+  this.tasks = [
+  "conversational",
+  "fill-mask",
+  "question-answering",
+  "sentence-similarity",
+  "summarization",
+  "table-question-answering",
+  "text-classification",
+  "text-generation",
+  "token-classification",
+  "translation",
+  "zero-shot-classification"
+  ];
+*/
 
 class HuggingFaceLLM extends SuppressModel {
 
+
     constructor(props) {
+        super(props);
         this.props = props;
-        this.tasks = [
-            "conversational",
-            "fill-mask",
-            "question-answering",
-            "sentence-similarity",
-            "summarization",
-            "table-question-answering",
-            "text-classification",
-            "text-generation",
-            "token-classification",
-            "translation",
-            "zero-shot-classification"
-        ];
+        this.about = {
+            name: "HuggingFace LLM",
+            omniID: this.props.model
+        };
     }
 
-    async postProcess(self) {
-        return self.lastResult;
-    }
 
-    async generate(prompt) {
-        this.lastPrompt = prompt;
-        // if the function was called by a server, it will pass in a JSON object. This should have only one key, which is the prompt. the name of the key is not important.
-        if (typeof prompt === 'object') {
-            prompt = prompt[Object.keys(prompt)[0]];
-        }
+    async generate(params) {
+        this.lastParams = params;
+
+        // params is a json object with the following fields:
+        // key: value
+        // we need to conver this to
+        // base64 encode the json object
+
+        let encodedParams = Buffer.from(JSON.stringify(params)).toString('base64');
         let finalFlags = [];
-        let flags = [['--task', this.props.task],[ '--model', this.props.model],[ '--prompt', prompt]];
+        let flags = [['--task', this.props.task],[ '--model', this.props.model], ['--params', encodedParams]];
         flags.forEach(flag => {
             if (flag[1] != undefined && flag[1] != null) {
                 finalFlags.push(flag[0]);
@@ -49,12 +58,11 @@ class HuggingFaceLLM extends SuppressModel {
             mode: 'json',
             pythonPath: 'python',
             pythonOptions: ['-u'], // get print results in real-time
-            scriptPath: './',
+            scriptPath: __dirname,
             args: finalFlags
         };
 
         console.log(options);
-
 
         let res = await new Promise((resolve, reject) => {
             PythonShell.run(`huggingface.py`, options, function (err, results) {
@@ -63,8 +71,14 @@ class HuggingFaceLLM extends SuppressModel {
                 resolve(results);
             });
         });
-        this.lastResult = res;
-        return this.postProcess(this);
+
+        res = res[0];
+
+        if(this.irresponsible){
+            return res;
+        } else {
+            return this.responsibleResponse(res);
+        }
     }
 }
 

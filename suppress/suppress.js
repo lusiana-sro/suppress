@@ -21,6 +21,28 @@ class SuppressModel {
     generate () {
         throw new Error('You have to implement the method generate!');
     }
+
+
+    beIrresnponsible () {
+        this.irresponsible = true;
+        return this;
+    }
+
+    setPreviousModel (previousModel) {
+        this.previousModel = previousModel;
+    }
+
+    responsibleResponse(output) {
+        return {
+            "response": output,
+            "about": this.about
+        };
+    }
+
+    adjust(key, value) {
+        this[key] = value;
+        return this;
+    }
 }
 
 class OpenAILLM extends SuppressModel {
@@ -36,66 +58,12 @@ class OpenAILLM extends SuppressModel {
         this.api = new OpenAIApi(this.config);
         this.about = {
             model: "OpenAI GPT-3",
-            FERTP: {
-                Explainability: {
-                    Metric: "Accuracy",
-                    Value: 86.4,
-                    Source: "https://arxiv.org/pdf/2005.14165.pdf"
-                },
-                Fairness: {
-                    Metric: "Disparate Impact",
-                    Value: null
-                },
-                Robustness: {
-                    Metric: "Attack Success Rate",
-                    Value: null
-                },
-                Transparency: {
-                    Metric: "Documentation",
-                    Value: 0.4
-                },
-                Privacy: {
-                    Metric: "Data Breach Rate",
-                    Value: null
-                },
-            },
-            weaknesses: [
-                "Is known to have generated racist and sexist content",
-                "Training data includes copyrighted material",
-                "Can be very confidently wrong"
-            ],
-            weaknessesSources: [
-                "https://tcrn.ch/30BQhqn",
-                "https://medium.com/science-and-philosophy/gpt-3-quickly-turns-racist-b270c6f40050"
-            ],
-            strengths: [
-                "Capable of processing large inputs",
-                "Creates coherent and grammatically correct text",
-                "Can be used to generate code"
-            ]
-        }
-
-    }
-
-    beIrresnponsible () {
-        this.irresponsible = true;
-        return this;
-    }
-
-
-    setPreviousModel (previousModel) {
-        this.previousModel = previousModel;
-    }
-
-    responsibleResponse(output) {
-        return {
-            "response": output,
-            "meta": {
-                "about": this.about,
-                "previousModel": this.previousModel
-            }
+            omniID: "text-davinci-003"
         };
+        this.parseJson = true;
     }
+
+
 
     async generate(prompt) {
         return await this.api.createCompletion({
@@ -107,10 +75,13 @@ class OpenAILLM extends SuppressModel {
             data = data.data.choices[0].text;
             let res = this.stringReturnHandler(data);
             // try parse teh response as JSON
-            try {
-                res = JSON.parse(res);
-            } catch (e) {
-                // if it fails, just return the string
+            // check if should parese json
+            if (this.parseJson) {
+                try {
+                    res = EJSON.parse(res);
+                } catch (e) {
+                    // do nothing
+                }
             }
             // check if should be irresponsible
             if(this.irresponsible) {
@@ -139,7 +110,7 @@ class DataStorage {
     constructor (databaseName, apiKey) {
         // connect to a mongodb database by name and save the connection to this.db
         this.dbname = databaseName;
-        this.llm = new OpenAILLM(apiKey).beIrresnponsible();
+        this.llm = new OpenAILLM(apiKey).beIrresnponsible().adjust('parseJson', false);
     }
 
 
@@ -394,6 +365,9 @@ class SuppresServer {
         this.app.use(express.urlencoded({ extended: true }));
     }
 
+    beforeReturn (result) {
+        return result;
+    }
     /*
       This function is used to mount the database to the server
       @param {DataStorage} dataStorage - The database to mount
@@ -422,6 +396,7 @@ class SuppresServer {
                         const params = Object.assign({}, req.params, req.query);
                         generator.generate(req.params).then((gen)=>{
                             console.log("gen", gen);
+                            this.beforeReturn(gen);
                             res.send(gen);
                         });
                     } catch (e) {
@@ -434,6 +409,7 @@ class SuppresServer {
                     let rpath = req.originalUrl;
                     try {
                         await generator.get(rpath).then((data) => {
+                            this.beforeReturn(data);
                             res.send(data);
                             return;
                         });
@@ -448,6 +424,7 @@ class SuppresServer {
                     let rpath = req.originalUrl;
                     try {
                         await generator.add(req.body, rpath).then((data) => {
+                            this.beforeReturn(data);
                             res.send(data);
                             return;
                         });
@@ -461,6 +438,7 @@ class SuppresServer {
                     console.log(req.body);
                     generator.generate(req.body).then((gen) => {
                         console.log("gen", gen);
+                        this.beforeReturn(gen);
                         res.send(gen);
                     });
                 });
@@ -470,6 +448,7 @@ class SuppresServer {
                     let rpath = req.originalUrl;
                     try {
                         await generator.update(req.body, rpath).then((data) => {
+                            this.beforeReturn(data);
                             res.send(data);
                             return;
                         });

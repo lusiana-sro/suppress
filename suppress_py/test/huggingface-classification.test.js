@@ -6,10 +6,9 @@ jest.setTimeout(50000);
 
 test("should score above 0.5", async () => {
     await new HuggingFaceLLM({
-        task: "text-classification"
-    }).generate("This restaurant is awesome").then((result) => {
+        task: "zero-shot-classification",
+    }).generate({query:"How are you?", options:['Question','Command']}).then((result) => {
         console.log(result);
-        result = result[0][0]['score'];
-        expect(result).toBeGreaterThan(0.5);
+        expect(result[0].scores[0]).toBeGreaterThan(0.8);
     });
 });
