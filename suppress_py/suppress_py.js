@@ -1,4 +1,4 @@
-const {SuppressModel} = require('/home/velocitatem/Documents/Projects/suppress/suppress/suppress.js');
+const {SuppressModel} = require('ai.suppress.js');
 const {PythonShell} = require('python-shell');
 
 /*
