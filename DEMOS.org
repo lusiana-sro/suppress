@@ -4,14 +4,16 @@ With suppress, you can make processing and extracting data from user responses m
 
 + Example :: [[./demos/research/README.org][Financial literacy research]]
 
-* Automating customer service
-Use Suppress to automate customer service inquiries and provide speedy responses to customers. Automatically categorize inquiries, route them to the right department, and offer personalized advice to customers.
-
 * Automated content generation
 Use Suppress to generate high-quality content for your website, presentation, blog or article.
-
 + Example :: [[./demos/content_generation/README.org][Automated content generation]]
 
+* Suppress Storage - AI DB
+You can also use Suppress to store your data in a way that is easy to access and analyze and insert.
++ Example :: [[./demos/brainstorm/README.org][Brainstorming]]
+
+* Automating customer service
+Use Suppress to automate customer service inquiries and provide speedy responses to customers. Automatically categorize inquiries, route them to the right department, and offer personalized advice to customers.
 
 * Automated sentiment analysis
 Use Suppress to analyze customer feedback and reviews. Automatically detect and measure sentiment in text, helping you to better understand customer opinions and drive better decision making.

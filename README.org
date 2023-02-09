@@ -10,6 +10,9 @@
 Here is an [[https://www.linkedin.com/pulse/backend-ai-daniel-rosel][article]] demonstrating the power of suppress.js.
 
 * Hello World
+
+[[./hello-world-2x.mp4]]
+
 1. =npm i ai.suppress.js=
 2. Create a file named =server.js= and add the following code:
     #+BEGIN_SRC javascript

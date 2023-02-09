@@ -63,7 +63,10 @@ class OpenAILLM extends SuppressModel {
         this.parseJson = true;
     }
 
-
+    setModel(model) {
+        this.about.omniID = model;
+        return this;
+    }
 
     async generate(prompt) {
         return await this.api.createCompletion({
