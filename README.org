@@ -11,7 +11,7 @@ Here is an [[https://www.linkedin.com/pulse/backend-ai-daniel-rosel][article]] d
 
 * Hello World
 
-[[./hello-world-2x.mp4]]
+[[./hello_world-2x.gif]]
 
 1. =npm i ai.suppress.js=
 2. Create a file named =server.js= and add the following code:
