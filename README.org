@@ -1,7 +1,13 @@
 #+title: Suppress.js
 #+description: Node.js Backend framework using AI.
 
+
 # shield for
+
+#+HTML: <a href='https://suppressjs.readthedocs.io/en/latest/?badge=latest'><img src='https://readthedocs.org/projects/suppressjs/badge/?version=latest' alt='Documentation Status' /></a>
+#+HTML: <img alt="npm" src="https://img.shields.io/npm/v/ai.suppress.js">
+#+HTML: <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/velocitatem/suppress?style=social">
+
 
 [[./logo.png]]
 
