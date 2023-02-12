@@ -1,0 +1,51 @@
+<!-- Get all the ideas from teh database -->
+<!-- The api to get all the ideas is GET http://localhost:3001/api/db/brainstorm/get/all -->
+
+<html>
+    <head>
+        <title>Brainstorm</title>
+    </head>
+    <body>
+        <h1>Brainstorm</h1>
+        <div id="ideas"></div>
+        <script>
+        fetch('http://localhost:3001/api/db/brainstorm/idea/contains/dog')
+            .then(response => response.json())
+            .then(data => {
+            data.forEach(idea => {
+                const ideaDiv = document.createElement('div');
+                ideaDiv.innerHTML = idea.idea;
+                document.getElementById('ideas').appendChild(ideaDiv);
+            });
+            });
+        </script>
+    </body>
+</html>
+<style>
+    body {
+        font-family: sans-serif;
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    div {
+        margin: 10px;
+        padding: 10px;
+        border: 1px solid black;
+    }
+
+    div:hover {
+        background-color: #eee;
+    }
+
+    div:active {
+        background-color: #ddd;
+    }
+
+    div:active:hover {
+        background-color: #ccc;
+    }
+
+</style>

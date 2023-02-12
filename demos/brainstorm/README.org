@@ -1,0 +1,24 @@
+#+title: Brainstorming with Suppress Storage
+
+Do you even just need to quickly manage some data that is coming in ad-hoc? Within a few minutes, with suppress.js, you can have a simple storage system up and running. It's a great way to get started with a new project, or to quickly prototype something.
+
+First, create your server:
+
+#+begin_src javascript
+  const config = require('./config.json');
+  const {OpenAILLM, DataGenerator, SuppresServer, SuppressSequence, DataStorage } = require("ai.suppress.js");
+
+  // the key we are getting here is for OpenAI
+  let storage = new DataStorage("Brainstorming", config.key); // Create a new storage object
+  // we set the database name to use as "Brainstorming"
+  let server = new SuppresServer();
+  server.mountDatabase(storage);
+
+  server.start(3001);
+#+end_src
+
+As easy as that... Now put together a simple client, you can find my demos in this folder. We are also working on a simple client for EVERYTHING that will be available soon 😉.
+
+And now, all you need to do is start brainstorming!
+
+[[./Peek 2023-02-07 15-54.gif]]
