@@ -44,7 +44,7 @@ Here is an [[https://www.linkedin.com/pulse/backend-ai-daniel-rosel][article]] d
 4. Open your browser and go to =http://localhost:3000/hello/John/China= [Replace with your name and country]
 
 
-Learn more about Suppress.js in the documentation [[./DOCS.org][here]].
+Learn more about Suppress.js in the documentation [[./https://suppressjs.readthedocs.io/en/latest/index.html][here]].
 
 * Huh?
 Not really sure what this does? Here are some examples of what you can do with Suppress.js: [[./DEMOS.org][Demos]].

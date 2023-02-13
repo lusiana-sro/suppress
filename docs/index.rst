@@ -3,10 +3,10 @@ Welcome to Suppress.js
 
 .. toctree::
     :maxdepth: 2
-
     getting-started
     Models/models
     Server/server
+    DataGenerator/data-generator
 
 
 
@@ -42,5 +42,7 @@ Models 🧰
 
 Want to learn more about the models we support? Check out our
 `Models <./Models/models>`__. Here is a list of the models we
-currently support: - OpenAI - all models - 🤗 Huggingface - Language
-Models
+currently support:
+
+- OpenAI: all models
+- 🤗 Huggingface: Language Models
