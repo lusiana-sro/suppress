@@ -2,11 +2,12 @@ Welcome to Suppress.js
 ======================
 
 .. toctree::
-    :maxdepth: 2
-    getting-started
-    Models/models
-    Server/server
-    DataGenerator/data-generator
+   :maxdepth: 2
+
+   getting-started
+   Models/models
+   Server/server
+   DataGenerator/data-generator
 
 
 
