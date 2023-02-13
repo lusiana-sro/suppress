@@ -29,5 +29,13 @@ master_doc = 'index'
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = 'alabaster'
+html_theme = "sphinx_book_theme"
+html_title = ""
 html_static_path = ['_static']
+
+html_logo = "./logo.png"
+# have the toc on the side with 2 levels
+html_theme_options = {
+    "show_navbar_depth": 2,
+    "repository_url": "https://github.com/velocitatem/suppress/tree/main"
+}
