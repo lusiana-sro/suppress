@@ -59,6 +59,8 @@ server.createEndpoint(
   dataGenerator);
 ```
 
+You might have noticed `{introduction}` in the prompt, this is a placeholder, and it will be replaced by the value of the `introduction` parameter which is passed in the URL. Depending on the `method` of the endpoint, the parameters will be passed in different ways. For more information, check out the [Server API](./Server/server.md).
+
 Now, we need to start our server.
 
 ```js
