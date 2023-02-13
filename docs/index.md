@@ -1,5 +1,12 @@
 # Welcome to Suppress.js
+```{eval-rst}
+.. toctree::
+  :maxdepth: 2
 
+  Getting Started
+  Models
+  Use Cases
+```
 
 ![Suppress.js](https://github.com/velocitatem/suppress/raw/main/logo.png)
 
