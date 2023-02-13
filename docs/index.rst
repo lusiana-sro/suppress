@@ -24,7 +24,7 @@ Getting Started ✨
 ==================
 
 Ready to take development to the next level? Check out our guide:
-`Getting Started <./getting-started>`__
+`Getting Started <./getting-started.html>`__
 
 Use Cases ⚒️
 ============
@@ -42,7 +42,7 @@ Models 🧰
 =========
 
 Want to learn more about the models we support? Check out our
-`Models <./Models/models>`__. Here is a list of the models we
+`Models <./Models/models.html>`__. Here is a list of the models we
 currently support:
 
 - OpenAI: all models
