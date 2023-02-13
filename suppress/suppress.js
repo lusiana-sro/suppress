@@ -18,7 +18,7 @@ class SuppressModel {
         // this function removes those
         return str.replaceAll(/['`]/g, '');
     }
-    generate () {
+    generate (data) {
         throw new Error('You have to implement the method generate!');
     }
 

@@ -28,7 +28,8 @@ server.createEndpoint('/test', 'GET', generator);
 ```
 
 ### `mountDatabase(dataStorage)`
-Mounts a database to the server. This method takes one parameter, `dataStorage`, which is the `DataStorage` object that will be mounted to the server.
+Mounts a database to the server. This method takes one parameter, `dataStorage`, which is the `DataStorage` object that will be mounted to the server. Learn more about the `DataStorage` object [here](../DataStorage/data-storage.md).
+
 
 ```js
 server.mountDatabase(dataStorage);
