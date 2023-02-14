@@ -28,13 +28,13 @@ touch server.js
 Start by:
 
 ```js
-import { OpenAILLM, SuppressServer, DataGenerator } from 'ai.suppress.js';
+const { OpenAILLM, SuppresServer, DataGenerator } = require('ai.suppress.js');
 ```
 
-Now, we need to create a new instance of the `SuppressServer` class, this will be our server. We will also need to create a new instance of the `OpenAILLM` class, this will be our language model.
+Now, we need to create a new instance of the `SuppresServer` class, this will be our server. We will also need to create a new instance of the `OpenAILLM` class, this will be our language model.
 
 ```js
-const server = new SuppressServer();
+const server = new SuppresServer();
 const llm = new OpenAILLM("YOUR_OPENAI_API_KEY");
 ```
 
