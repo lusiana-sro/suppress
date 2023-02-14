@@ -1,6 +1,8 @@
 # Data Storage
 Save, access and modify data in a mongodb database, without having to write much code for it. Assuming you have `ai.suppress.js` installed and a mongodb database running, you can use the following code to create an API access to a collection in the database.
 
+* MongoDB install instructions: https://docs.mongodb.com/manual/installation/
+
 ## Setup
 For this to work, you will need to get an API key from OpenAI. You can get your API key from [OpenAI Dashboard](https://beta.openai.com/account/api-keys). First we need to import the Server and Storage.
 

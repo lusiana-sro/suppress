@@ -5,9 +5,12 @@ Welcome to Suppress.js
    :maxdepth: 2
 
    getting-started
+   middleware
    Models/models
    Server/server
    DataGenerator/data-generator
+   DataStorage/data-storage
+   mix-suppress
 
 
 
@@ -30,10 +33,12 @@ Use Cases ⚒️
 ============
 
 Want to see what Suppress can do? Here is a list of some of the use
-cases that Suppress can be used for: - Research Processing - Data
-Analysis and Extraction - AI powered Database Management - Core
-Functionality for your Application. Ex:
-`Feedme <https://feedme.streamlit.app/>`__
+cases that Suppress can be used for:
+
+* Research Processing
+* Data Analysis and Extraction
+* AI powered Database Management
+* Core Functionality for your Application. Ex: `Feedme <https://feedme.streamlit.app/>`__
 
 Read more here: `Use
 Cases <https://github.com/velocitatem/suppress/blob/main/DEMOS.org>`__

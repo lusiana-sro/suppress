@@ -4,6 +4,8 @@ In this guide, we will walk you through the process of setting up a new project 
 
 ## Installation
 
+Make sure you have [Node.js](https://nodejs.org/en/) installed on your machine. Currently runs on versions `v16.19.0`.
+
 To install *suppress.js*, you can use `npm`.
 
 ```bash
