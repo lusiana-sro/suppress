@@ -36,6 +36,6 @@ html_static_path = ['_static']
 html_logo = "./logo.png"
 # have the toc on the side with 2 levels
 html_theme_options = {
-    "show_navbar_depth": 2,
+    "show_navbar_depth": 3,
     "repository_url": "https://github.com/velocitatem/suppress/tree/main"
 }
