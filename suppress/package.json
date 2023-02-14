@@ -24,7 +24,7 @@
         "openai": "^3.1.0"
     },
     "devDependencies": {
-        "jest": "^29.4.1",
+        "jest": "^29.4.1"
     }
 
 }

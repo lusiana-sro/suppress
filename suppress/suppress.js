@@ -6,6 +6,33 @@ const {EJSON} = require('bson');
 const { Configuration, OpenAIApi } = require("openai");
 const prompts = require('./prompts.js');
 
+const SuppressMiddleware = (req, res, next) => {
+    next();
+    // req.suppress must have the following keys
+    // prompt, format, generator
+        // check for keys
+    if (req.suppress && req.suppress.prompt && req.suppress.format && req.suppress.generator) {
+        req.generator = new DataGenerator(req.suppress.prompt, req.suppress.format, req.suppress.llm);
+        let input = {};
+        if (req.method === "POST") {
+            input = req.body;
+
+        } else {
+            // GET
+            input = req.query;
+            // add params to input
+            console.log(req.params)
+            Object.keys(req.params).forEach((param) => {
+                input[param] = req.params[param];
+            });
+        }
+        req.generator.generate(input).then((output) => {
+            res.send(output);
+        }).catch((err) => {
+            res.send(err);
+        });
+    }
+}
 
 
 
@@ -502,4 +529,4 @@ class SuppressSequence {
 
 // export all classes
 
-module.exports = { OpenAILLM, DataGenerator, SuppresServer, DataStorage, SuppressSequence, SuppressModel };
+module.exports = { OpenAILLM, DataGenerator, SuppresServer, DataStorage, SuppressSequence, SuppressModel, SuppressMiddleware };
