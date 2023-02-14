@@ -9,7 +9,7 @@
 project = 'Suppress.js'
 copyright = '2023, Daniel Alves Rosel'
 author = 'Daniel Alves Rosel'
-release = '1.0.0'
+release = '1.3.2'
 
 
 # -- General configuration ---------------------------------------------------
