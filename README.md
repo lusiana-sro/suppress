@@ -2,9 +2,9 @@
 ![npm](https://img.shields.io/npm/v/ai.suppress.js)
 
 
-Suppress.js is a small library that makes integrating AI into any existing or new application easy, and responsible.
+![logo](https://github.com/velocitatem/suppress/raw/documentation/logo.png)
 
-![gif](./demo.gif)
+Suppress.js is a small library that makes integrating AI into any existing or new application easy, and responsible.
 
 # Quickstart 🏁
 
