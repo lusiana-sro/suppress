@@ -43,7 +43,7 @@ class SuppressModel {
     stringReturnHandler(str) {
         // some strings will come back with a trailing ' or ` at the start and end
         // this function removes those
-        return str.replaceAll(/['`]/g, '');
+        return str.replace(/['`]/g, '');
     }
     async generate (data) {
         throw new Error('You have to implement the method generate!');
