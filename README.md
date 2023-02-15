@@ -2,16 +2,15 @@
 ![npm](https://img.shields.io/npm/v/ai.suppress.js)
 
 
-![logo](https://github.com/velocitatem/suppress/raw/main/logo.png)
 Suppress.js is a small library that makes integrating AI into any existing or new application easy, and responsible.
 
 ![gif](./demo.gif)
 
-# Quickstart
+# Quickstart 🏁
 
 Who is this for? This library has been made to be used by developers at any level. If you are a beginner, you can use this library to get started with AI. If you are an expert, you can use this library to quickly integrate AI into your existing or new application.
 
-## Installation
+## Installation 📥
 
 Follow along with the [installation notebook](
 
@@ -63,7 +62,7 @@ Run the server and make a request:
 curl http://localhost:3000/hello/John/Spain
 ```
 
-# Documentation
+# Documentation 🕮
 You can find the full documentation [here](https://suppressjs.rtfd.io).
 ## Models
 Suppress.js on it own supports OpenAI models for now. However, you can use any model that is supported by [HuggingFace Transformers](https://huggingface.co/transformers/), if you also install `mix.suppress.js` package.
@@ -73,5 +72,5 @@ Suppress.js on it own supports OpenAI models for now. However, you can use any m
 * You send the data, suppress handles it. You want the data? Suppress gets it.
 
 
-# Contributing
+# Contributing ➕
 There is plenty to do! If you want to contribute, please following standard contributing guidelines. https://docs.github.com/en/get-started/quickstart/contributing-to-projects
