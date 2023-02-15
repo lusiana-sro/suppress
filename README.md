@@ -1,5 +1,7 @@
 [![Documentation Status](https://readthedocs.org/projects/suppressjs/badge/?version=latest)](https://suppressjs.readthedocs.io/en/latest/?badge=latest)
 ![npm](https://img.shields.io/npm/v/ai.suppress.js)
+![GitHub Repo stars](https://img.shields.io/github/stars/velocitatem/suppress?style=social)
+![join](https://img.shields.io/badge/Join!-looking%20for%20colaborators-critical)
 
 
 ![logo](https://github.com/velocitatem/suppress/raw/documentation/logo.png)
