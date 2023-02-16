@@ -12,17 +12,15 @@ Suppress.js is a small library that makes integrating AI into any existing or ne
 
 Who is this for? This library has been made to be used by developers at any level. If you are a beginner, you can use this library to get started with AI. If you are an expert, you can use this library to quickly integrate AI into your existing or new application.
 
-## Ready 📥
+## Installation 📥
 
-Follow along with the [installation notebook](https://npm.runkit.com/ai.suppress.js) to get started.
+Follow along with the [installation notebook](
 
 First, install the package from npm:
 
 ```bash
 npm install ai.suppress.js
 ```
-
-## Set
 
 Once installed, lets import some main components from the library:
 
@@ -52,7 +50,6 @@ server.createEndpoint(
     );
 ```
 
-## Go
 Now we can start the server:
 
 ```javascript
