@@ -29,7 +29,7 @@ app.get('/complete/lyrics/:lyrics', (req,res)=>{
     req.suppress = {
         prompt: "Complete the lyrics: {lyrics}",
         format: JSON.stringify({lyrics: "string"}),
-        llm: llm // ofc, you need to import your llm of choice
+        llm: llm // you need to import your llm of choice
     };
 });
 ```

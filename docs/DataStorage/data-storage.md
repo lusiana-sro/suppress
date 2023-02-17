@@ -1,4 +1,7 @@
 # Data Storage
+
+**Very experimental**
+
 Save, access and modify data in a mongodb database, without having to write much code for it. Assuming you have `ai.suppress.js` installed and a mongodb database running, you can use the following code to create an API access to a collection in the database.
 
 * MongoDB install instructions: https://docs.mongodb.com/manual/installation/
@@ -34,4 +37,4 @@ Take a look at this post, demonstrating it in action: [here](https://www.linkedi
 
 * `/api/db/:any/../:query` - GET - Will get you the data you want, based on the query path.
 * `/api/db/:any/../:query` - POST - Will insert the data you want, based on the query path.
-* `/api/db/:any/../:query` - PUT - Will update the data you want, based on the query path.
+* `/api/db/:any/../:query` - PUT - Will update the data you want, based on the query path. **Take care when using this, bad things can happen**.
