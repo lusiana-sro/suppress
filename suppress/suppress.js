@@ -6,6 +6,7 @@ const {EJSON} = require('bson');
 const { Configuration, OpenAIApi } = require("openai");
 const prompts = require('./prompts.js');
 const cohere = require('cohere-ai');
+const axios = require('axios');
 
 
 const SuppressMiddleware = (req, res, next) => {
@@ -192,6 +193,114 @@ class CohereAILLM extends SuppressModel {
 
 }
 
+class AlephAlphaLLM extends SuppressModel {
+
+    constructor(options) {
+        super();
+        this.apiKey = options.apiKey;
+        this.model = options.model;
+        this.task = options.task;
+        this.about = {
+            model: "Aleph Alpha",
+            omniID: this.model
+        };
+        this.parseJson = true;
+    }
+
+    /*
+      example request:
+      const axios = require('axios');
+      let data = JSON.stringify({
+      "model": "luminous-base",
+      "prompt": "An apple a day",
+      "maximum_tokens": 64
+      });
+
+      let config = {
+      method: 'post',
+      url: 'https://api.aleph-alpha.com/complete',
+      headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer <TOKEN>'
+      },
+      data : data
+      };
+
+      axios(config)
+      .then((response) => {
+      console.log(JSON.stringify(response.data));
+      })
+      .catch((error) => {
+      console.log(error);
+      });
+    */
+
+
+    async send(endpoint, body) {
+        let config = {
+            method: 'post',
+            url: `https://api.aleph-alpha.com/${endpoint}`,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "Authorization": `Bearer ${this.apiKey}`
+            }
+        };
+
+        if (body) {
+            config.data = body;
+        }
+
+        return await axios(config).then((response) => {
+            return response.data;
+        }).catch((error) => {
+            console.log(error);
+            throw error;
+        });
+
+    }
+
+    // tasks possible are completion, summarization, QA
+    async runTask(task, input) {
+        switch (task) {
+            case "complete":
+            return await this.send("complete", {prompt: input, model: this.model, maximum_tokens: this.maxTokens || 64}).
+            then((response) => {
+                return response.completions[0].completion;
+            });
+            case "summarize":
+            return await this.send("summarize", {...input, model: this.model});
+            case "QA":
+                return await this.send("qa", {...input, model: this.model});
+            default:
+                throw new Error(`Unknown task ${task}`);
+        }
+    }
+
+
+    async generate(prompt) {
+        return await this.runTask(this.task, prompt).then((response) => {
+            let res = this.stringReturnHandler(response);
+
+            if (this.parseJson) {
+                try {
+                    res = EJSON.parse(res);
+                } catch (e) {
+                    // do nothing
+                }
+            }
+            // check if should be irresponsible
+            if(this.irresponsible) {
+                return res;
+            } else {
+                return this.responsibleResponse(res);
+            }
+        });
+    }
+
+
+}
 /*
   This class is used to store data in a mongodb database
 */
@@ -594,4 +703,4 @@ class SuppressSequence {
 
 // export all classes
 
-module.exports = { OpenAILLM, DataGenerator, SuppresServer, DataStorage, SuppressSequence, SuppressModel, SuppressMiddleware, CohereAILLM };
+module.exports = { OpenAILLM, DataGenerator, SuppresServer, DataStorage, SuppressSequence, SuppressModel, SuppressMiddleware, CohereAILLM, AlephAlphaLLM };
