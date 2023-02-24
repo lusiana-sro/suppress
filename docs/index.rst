@@ -2,11 +2,15 @@ Welcome to Suppress.js
 ======================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    getting-started
    middleware
    Models/models
+   Models/cohereai
+   Models/custom
+   Models/hugging-face
+   Models/openai
    Server/server
    DataGenerator/data-generator
    DataStorage/data-storage

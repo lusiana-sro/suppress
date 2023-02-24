@@ -159,8 +159,11 @@ class CohereAILLM extends SuppressModel {
                     return response;
                 });
             case 'classify':
-                throw new Error('classify not implemented');
-                return await this.cohere.classify({...input, model: this.model && "small"});
+                return await this.cohere.classify({...input, model: this.model && "small"}).
+                then((response) => {
+                    response = response.body.classifications;
+                    return response;
+                });
             default:
                 throw new Error(`Unknown task ${task}`);
         }
