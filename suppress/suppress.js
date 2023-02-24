@@ -23,7 +23,7 @@ const SuppressMiddleware = (req, res, next) => {
             // GET
             input = req.query;
             // add params to input
-            console.log(req.params)
+            console.log(req.params);
             Object.keys(req.params).forEach((param) => {
                 input[param] = req.params[param];
             });
