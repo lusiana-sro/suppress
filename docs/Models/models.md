@@ -12,5 +12,9 @@ By default the suppress library provides a model for each of the OpenAI models. 
 ## [Cohere AI](./cohereai.md)
 You can also access the [Cohere AI](https://cohere.ai/) models using the `CohereAILLM` model. The link to more details is in the header.
 
+## [Alepha Alpha](./alephalpha.md)
+Another API we support comes from [Aleph Alpha](https://www.aleph-alpha.com/). The model is called `AlephAlphaLLM` and the link to more details is in the header.
+
+
 ## * [HuggingFace Models](./hugging-face.md)
 If you want to use any of the models supported by HuggingFace, you can use the `HuggingfaceModel` object form `mix.suppress.js`. The link to more details is in the header.
