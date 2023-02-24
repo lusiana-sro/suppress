@@ -270,9 +270,15 @@ class AlephAlphaLLM extends SuppressModel {
                 return response.completions[0].completion;
             });
             case "summarize":
-            return await this.send("summarize", {...input, model: this.model});
-            case "QA":
-                return await this.send("qa", {...input, model: this.model});
+                return await this.send("summarize", {document:{text:input}, model: this.model}).
+                then((response) => {
+                    return response.summary;
+                });
+            case "qa":
+                return await this.send("qa", {query:input.question, documents: [{text: input.context}], model: this.model, maximum_tokens: this.maxTokens || 64}).
+            then((response) => {
+                return response.answers[0].answer;
+            });
             default:
                 throw new Error(`Unknown task ${task}`);
         }
