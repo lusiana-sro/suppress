@@ -11,6 +11,7 @@ Welcome to Suppress.js
    Models/custom
    Models/hugging-face
    Models/openai
+   Models/alephalpha
    Server/server
    DataGenerator/data-generator
    DataStorage/data-storage
