@@ -99,6 +99,7 @@ class OpenAILLM extends SuppressModel {
     }
 
     async generate(prompt) {
+        console.log(prompt);
         return await this.api.createCompletion({
             model: "text-davinci-003",
             prompt: prompt,
@@ -277,6 +278,7 @@ class AlephAlphaLLM extends SuppressModel {
             case "qa":
                 return await this.send("qa", {query:input.question, documents: [{text: input.context}], model: this.model, maximum_tokens: this.maxTokens || 64}).
             then((response) => {
+                console.log(response);
                 return response.answers[0].answer;
             });
             default:
@@ -604,7 +606,8 @@ class SuppresServer {
                     // get the link parameters
                     try {
                         const params = Object.assign({}, req.params, req.query);
-                        generator.generate(req.params).then((gen)=>{
+                        console.log(params);
+                        generator.generate(params).then((gen)=>{
                             console.log("gen", gen);
                             this.beforeReturn(gen);
                             res.send(gen);
