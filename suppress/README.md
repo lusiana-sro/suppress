@@ -4,7 +4,10 @@
 ![join](https://img.shields.io/badge/Join!-looking%20for%20colaborators-critical)
 
 
-![logo](https://github.com/velocitatem/suppress/raw/documentation/logo.png)
+
+https://user-images.githubusercontent.com/60182044/221430021-200e982f-a66e-4de0-aed9-c99c36788538.mp4
+
+
 
 Suppress.js is a small library that makes integrating AI into any existing or new application easy, and responsible.
 
@@ -12,15 +15,17 @@ Suppress.js is a small library that makes integrating AI into any existing or ne
 
 Who is this for? This library has been made to be used by developers at any level. If you are a beginner, you can use this library to get started with AI. If you are an expert, you can use this library to quickly integrate AI into your existing or new application.
 
-## Installation 📥
+## Ready 📥
 
-Follow along with the [installation notebook](
+Follow along with the [installation notebook](https://npm.runkit.com/ai.suppress.js) to get started.
 
 First, install the package from npm:
 
 ```bash
 npm install ai.suppress.js
 ```
+
+## Set
 
 Once installed, lets import some main components from the library:
 
@@ -50,6 +55,7 @@ server.createEndpoint(
     );
 ```
 
+## Go
 Now we can start the server:
 
 ```javascript
@@ -63,6 +69,12 @@ Run the server and make a request:
 ```bash
 curl http://localhost:3000/hello/John/Spain
 ```
+
+## 🚨 Responsibility & Security 🚨
+When building apps which rely on AI, it is important to consider many factors. Here are some tools to help you build responsibly.
++ [Prompt Security Testing](https://github.com/velocitatem/llm-cross-prompt-scripting)
++ [Model Insight](https://github.com/velocitatem/InsightLink) (coming soon)
++ [User Key Management](https://github.com/velocitatem/omni) (coming soon)
 
 # Documentation 🕮
 You can find the full documentation [here](https://suppressjs.rtfd.io).

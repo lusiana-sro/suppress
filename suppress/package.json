@@ -1,6 +1,6 @@
 {
     "name": "ai.suppress.js",
-    "version": "1.3.3",
+    "version": "1.3.4",
     "description": "Node.js Backend framework using AI.",
     "homepage": "https://github.com/velocitatem/suppress",
     "main": "suppress.js",
