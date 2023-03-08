@@ -70,6 +70,12 @@ Run the server and make a request:
 curl http://localhost:3000/hello/John/Spain
 ```
 
+## 🚨 Responsibility & Security 🚨
+When building apps which rely on AI, it is important to consider many factors. Here are some tools to help you build responsibly.
++ [Prompt Security Testing](https://github.com/velocitatem/llm-cross-prompt-scripting)
++ [Model Insight](https://github.com/velocitatem/InsightLink) (coming soon)
++ [User Key Management](https://github.com/velocitatem/omni) (coming soon)
+
 # Documentation 🕮
 You can find the full documentation [here](https://suppressjs.rtfd.io).
 ## Models
