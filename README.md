@@ -57,7 +57,7 @@ We're always looking for collaborators! If you're interested in joining the team
 When building apps which rely on AI, it is important to consider many factors. Here are some tools to help you build responsibly.
 + [Prompt Security Testing](https://github.com/velocitatem/llm-cross-prompt-scripting)
 + [Model Insight](https://github.com/velocitatem/InsightLink) (coming soon)
-+ [User Key Management](https://github.com/velocitatem/omni) (coming soon)
++ [User Key Management](https://github.com/velocitatem/omni) [NEW RELEASE]
 
 ## Models
 Suppress.js on it own supports OpenAI models for now. However, you can use any model that is supported by [HuggingFace Transformers](https://huggingface.co/transformers/), if you also install `mix.suppress.js` package.
